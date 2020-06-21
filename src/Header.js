@@ -4,7 +4,7 @@ function Greeting(props) {
     const isLoggedIn = props.isLoggedIn;
     if (isLoggedIn) {
         return <li className="nav-item">
-            <a className="nav-link" >
+            <a href="#" className="nav-link" >
                 <i className="fa fa-globe">
                     <span className="badge badge-danger">Logout</span>
                 </i>
@@ -13,7 +13,7 @@ function Greeting(props) {
         </li>;
     }
     return <li className="nav-item">
-        <a className="nav-link" >
+        <a href="#" className="nav-link" >
             <i className="fa fa-globe">
                 <span className="badge badge-success"></span>
             </i>
@@ -23,7 +23,7 @@ function Greeting(props) {
 
 export default function Header(props) {
     return  <nav className="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
-        <a className="navbar-brand" >{props.appName}</a>
+        <a href="#" className="navbar-brand" >{props.appName}</a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
@@ -32,13 +32,13 @@ export default function Header(props) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
                 <li className="nav-item active">
-                    <a className="nav-link" >
+                    <a href="#" className="nav-link" >
                         <i className="fa fa-home"></i>
                         Home
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link disabled" >
+                    <a href="#" className="nav-link disabled" >
 
                         About Us
                     </a>
