@@ -92,7 +92,7 @@ class TweepsList extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         // Typical usage (don't forget to compare props):
-        if (this.state.moreParams != prevState.moreParams) {
+        if (this.state.moreParams !== prevState.moreParams) {
             console.log('state has changed', this.state.moreParams)
             this.fetchTweeps();
         }
@@ -213,11 +213,11 @@ class TweepsList extends Component {
     }
 
     filteredStates = (country_id) => {
-        return this.state.regions.filter((s) => s.country_id == country_id)
+        return this.state.regions.filter((s) => s.country_id === country_id)
     }
 
     filteredCities = (state_id) => {
-        return this.state.cities.filter((s) => s.state_id == state_id)
+        return this.state.cities.filter((s) => s.state_id === state_id)
     }
 
     render() {
@@ -325,7 +325,7 @@ class TweepsList extends Component {
 
                                     <ul className="pagination">
 
-                                        <li className={"page-item "+ (this.state.pagination.page == 1 ? 'disabled' : '')}
+                                        <li className={"page-item "+ (this.state.pagination.page === 1 ? 'disabled' : '')}
                                             aria-label="&laquo; Previous">
                                             <button onClick={(e) => this.changePage(this.state.pagination.page - 1)}
                                                className="page-link" rel="prev"
@@ -337,7 +337,7 @@ class TweepsList extends Component {
                                             <span className="page-link">{this.state.pagination.page}</span>
                                         </li>
 
-                                        <li className={"page-item "+ (this.state.pagination.page == this.state.pagination.lastPage ? 'disabled' : '')}
+                                        <li className={"page-item "+ (this.state.pagination.page === this.state.pagination.lastPage ? 'disabled' : '')}
                                             aria-label="Next &raquo;">
                                             <button type="button" onClick={(e) => this.changePage(this.state.pagination.page + 1)}
                                                className="page-link" rel="next"
