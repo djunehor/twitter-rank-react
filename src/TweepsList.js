@@ -38,7 +38,7 @@ const SingleTweep = (props) => {
             </td>
             <td>
                 <small>
-                    <a href="#">{tweep.name}</a>
+                    <a >{tweep.name}</a>
                     ({`@${tweep.screen_name}`})
                 </small>
             </td>
@@ -53,7 +53,7 @@ const SingleTweep = (props) => {
                 {tweep.followers_count}
             </td>
             <td>
-                                                <span className="badge @if($tweep->verified) badge-success @endif">
+                                                <span className={"badge "+ (tweep.verified ? 'badge-success' : '')}>
                                                 {tweep.verified ? 'Yes' : 'No'}
                         </span>
             </td>
