@@ -4,7 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import TweepsList from "./TweepsList";
 const appName = 'Twitter Rank';
-const BASE_URL = 'http://127.0.0.1:3333';
+const BASE_URL = 'https://tweep-rank.herokuapp.com';
 const user = {
 };
 
