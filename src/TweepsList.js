@@ -38,7 +38,7 @@ const SingleTweep = (props) => {
             </td>
             <td>
                 <small>
-                    <span>{tweep.name}</a>
+                    <span>{tweep.name}</span>
                     ({`@${tweep.screen_name}`})
                 </small>
             </td>
@@ -334,7 +334,7 @@ class TweepsList extends Component {
 
 
                                         <li className="page-item active" aria-current="page">
-                                            <span className="page-link">{this.state.pagination.page}</a>
+                                            <span className="page-link">{this.state.pagination.page}</span>
                                         </li>
 
                                         <li className={"page-item "+ (this.state.pagination.page == this.state.pagination.lastPage ? 'disabled' : '')}
