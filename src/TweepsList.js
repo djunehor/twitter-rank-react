@@ -67,7 +67,7 @@ class TweepsList extends Component {
         this.state = {
             moreParams: {
                 country_id: null,
-                state_id: null,
+                region_id: null,
                 city_id: null,
                 per_page: 10,
             },
@@ -79,7 +79,7 @@ class TweepsList extends Component {
         };
 
         this.handleCountryChange = this.handleCountryChange.bind(this);
-        this.handleStateChange = this.handleStateChange.bind(this);
+        this.handleRegionChange = this.handleRegionChange.bind(this);
         this.handleCityChange = this.handleCityChange.bind(this);
         this.handlePerPageChange = this.handlePerPageChange.bind(this);
 
@@ -99,11 +99,17 @@ class TweepsList extends Component {
     }
 
     fetchCountries() {
-        var request = new Request(`${this.props.api}/countries`, {
-            method: 'GET',
-            headers: new Headers()
-        });
-        fetch(request) // Call the fetch function passing the url of the API as a parameter
+        
+        fetch(`${process.env.REACT_APP_BASE_URL}/countries`, {
+            method: 'GET', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept' : 'application/json'
+              
+            }}) // Call the fetch function passing the url of the API as a parameter
             .then(function (response) {
                 // Your code for handling the data you get from the API
                 return response.json();
@@ -116,16 +122,24 @@ class TweepsList extends Component {
     }
 
     fetchRegions(id) {
-        var request = new Request(`${this.props.api}/countries/${id}/regions`, {
-            method: 'GET',
-            headers: new Headers()
-        });
-        fetch(request) // Call the fetch function passing the url of the API as a parameter
+        
+        fetch(`${process.env.REACT_APP_BASE_URL}/regions/${id}`, {
+            method: 'GET', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept' : 'application/json'
+              
+            }}) // Call the fetch function passing the url of the API as a parameter
             .then(function (response) {
                 // Your code for handling the data you get from the API
                 return response.json();
             }).then(data => {
+                
             this.setState({regions: data});
+         
         })
             .catch(function () {
                 // This is where you run code if the server returns any errors
@@ -133,11 +147,17 @@ class TweepsList extends Component {
     }
 
     fetchCities(id) {
-        var request = new Request(`${this.props.api}/regions/${id}/cities`, {
-            method: 'GET',
-            headers: new Headers()
-        });
-        fetch(request) // Call the fetch function passing the url of the API as a parameter
+        
+        fetch(`${process.env.REACT_APP_BASE_URL}/cities/${id}`, {
+            method: 'GET', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept' : 'application/json'
+              
+            }}) // Call the fetch function passing the url of the API as a parameter
             .then(function (response) {
                 // Your code for handling the data you get from the API
                 return response.json();
@@ -150,28 +170,34 @@ class TweepsList extends Component {
     }
 
     fetchTweeps() {
-        var request = new Request(encodeQuery({
-            url: `${this.props.api}/?`,
+       
+        fetch(encodeQuery({
+            url: `${process.env.REACT_APP_BASE_URL}/?`,
             params: this.state.moreParams
         }), {
-            method: 'GET',
-            headers: new Headers()
-        });
-        fetch(request) // Call the fetch function passing the url of the API as a parameter
+            method: 'GET', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept' : 'application/json'
+            }}) // Call the fetch function passing the url of the API as a parameter
             .then(function (response) {
                 // Your code for handling the data you get from the API
                 return response.json();
-            }).then(data => {
-            let tweepData = data.data;
+            }).then(({tweeps}) => {
+       
+            let tweepData = tweeps.data;
             this.setState({tweeps: tweepData});
-            delete data.data;
+            delete tweeps.data;
             this.setState({
                 is_api_change:true,
                 pagination: {
-                    perPage: data.perPage,
-                    page: data.page,
-                    lastPage: data.lastPage,
-                    total: data.total
+                    perPage: tweeps.per_page,
+                    page: tweeps.current_page,
+                    lastPage: tweeps.last_page,
+                    total: tweeps.total
                 }
             });
         })
@@ -185,13 +211,16 @@ class TweepsList extends Component {
         moreParams.country_id = e.target.value;
         this.setState({moreParams})
         this.fetchRegions(e.target.value)
+        this.fetchCities(e.target.value)
     }
 
-    handleStateChange(e) {
+    handleRegionChange(e) {
         var moreParams = {...this.state.moreParams};
         moreParams.region_id = e.target.value;
         this.setState({moreParams})
-        this.fetchCities(e.target.value)
+        let cities = this.state.cities.filter(s  => parseInt(s.region_id) === parseInt(e.target.value));
+
+        this.setState({cities});
     }
 
     handlePerPageChange(e) {
@@ -212,14 +241,6 @@ class TweepsList extends Component {
         this.setState({moreParams})
     }
 
-    filteredStates = (country_id) => {
-        return this.state.regions.filter((s) => s.country_id === country_id)
-    }
-
-    filteredCities = (state_id) => {
-        return this.state.cities.filter((s) => s.state_id === state_id)
-    }
-
     render() {
         return (
             <div className="container-fluid">
@@ -232,13 +253,13 @@ class TweepsList extends Component {
                             </select>
                         </div>
                         <div className="col-12 col-sm-4 col-lg-2 mb-2">
-                            <select defaultValue={0} className="form-control" onChange={this.handleStateChange}>
-                                <SimpleList items={this.filteredStates(this.state.country_id)}/>
+                            <select defaultValue={0} className="form-control" onChange={this.handleRegionChange}>
+                                <SimpleList items={this.state.regions}/>
                             </select>
                         </div>
                         <div className="col-12 col-sm-4 col-lg-2 mb-2">
                             <select defaultValue={0} className="form-control" onChange={this.handleCityChange}>
-                                <SimpleList items={this.filteredCities(this.state.state_id)}/>
+                                <SimpleList items={this.state.cities}/>
                             </select>
                         </div>
                         <div className="col-12 col-sm-4 col-lg-2 mb-2">
@@ -345,7 +366,7 @@ class TweepsList extends Component {
                                         </li>
                                     </ul>
 
-                                    <small>({this.state.pagination.perPage} per page)</small>
+                                    <small>({this.state.pagination.perPage} per page / {this.state.pagination.total})</small>
                                 </div>
                             </div>
                         </div>
