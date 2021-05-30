@@ -2,10 +2,10 @@ import React, {Component} from "react";
 // Add bootstrap
 
 const pageOptions = [
-    {id: 10, name: '10 rows per page'},
-    {id: 20, name: '20 rows per page'},
-    {id: 50, name: '50 rows per page'},
-    {id: 100, name: '100 rows per page'},
+    {id: 10, name: '10 per page'},
+    {id: 20, name: '20 per page'},
+    {id: 50, name: '50 per page'},
+    {id: 100, name: '100 per page'},
 ];
 const SimpleList = (props) => {
     return props.items.map(function (item) {
